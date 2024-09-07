@@ -18,6 +18,7 @@ class _MapsScreenState extends State<MapsScreen> {
   late CameraPosition initialPosition;
   Set<Marker> markers = {};
   Set<Polyline> polyLines = {};
+  Set<Polygon> polygons = {};
   late bool isMapLoaded;
 
   @override
@@ -28,6 +29,7 @@ class _MapsScreenState extends State<MapsScreen> {
     );
     initialMarker();
     initialPolyLines();
+    initialPolygons();
     super.initState();
   }
 
@@ -46,6 +48,7 @@ class _MapsScreenState extends State<MapsScreen> {
           markers: markers,
           zoomControlsEnabled: false,
           polylines: polyLines,
+          polygons: polygons,
           initialCameraPosition: initialPosition,
           onMapCreated: (controller) {
             controllerGoogleMaps = controller;
@@ -105,18 +108,37 @@ class _MapsScreenState extends State<MapsScreen> {
 
   void initialPolyLines() {
     var myPolyLine = const Polyline(
-      color: Colors.white54,
-      width: 5,
-      geodesic: true,
-      jointType: JointType.round,
-      startCap: Cap.roundCap,
-      endCap: Cap.roundCap,      
-      visible: true,
-      polylineId: PolylineId("1"), 
-      points: [
-      LatLng(28.777943893349317, 34.56646385690122),
-      LatLng(29.188787280282824, 35.122646681260846)
-    ]);
+        color: Colors.white54,
+        width: 5,
+        geodesic: true,
+        jointType: JointType.round,
+        startCap: Cap.roundCap,
+        endCap: Cap.roundCap,
+        visible: true,
+        polylineId: PolylineId("1"),
+        points: [
+          LatLng(28.777943893349317, 34.56646385690122),
+          LatLng(29.188787280282824, 35.122646681260846)
+        ]);
     polyLines.add(myPolyLine);
+  }
+
+  void initialPolygons() {
+    var myPolygon = const Polygon(
+        fillColor: Colors.white12,
+        strokeColor: Colors.blue,
+        strokeWidth: 1,
+        polygonId: PolygonId("2"),
+        points: [
+          LatLng(29.36966213549226, 34.96471931092338),
+          LatLng(29.173200160122654, 36.07433837779394),
+          LatLng(29.502418728526397, 36.50555172803819),
+          LatLng(29.869876565406614, 36.74999751257156),
+          LatLng(30.007920739120642, 37.49157461171774),
+          LatLng(30.33559856180974, 37.66735589165766),
+          LatLng(31.499582538735126, 36.99169675688004),
+          
+        ]);
+        polygons.add(myPolygon);
   }
 }
