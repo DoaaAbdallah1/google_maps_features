@@ -19,6 +19,7 @@ class _MapsScreenState extends State<MapsScreen> {
   Set<Marker> markers = {};
   Set<Polyline> polyLines = {};
   Set<Polygon> polygons = {};
+  Set<Circle> circles = {};
   late bool isMapLoaded;
 
   @override
@@ -30,6 +31,7 @@ class _MapsScreenState extends State<MapsScreen> {
     initialMarker();
     initialPolyLines();
     initialPolygons();
+    initialCircles();
     super.initState();
   }
 
@@ -45,6 +47,7 @@ class _MapsScreenState extends State<MapsScreen> {
         body: Stack(
       children: [
         GoogleMap(
+          circles: circles,
           markers: markers,
           zoomControlsEnabled: false,
           polylines: polyLines,
@@ -145,5 +148,18 @@ class _MapsScreenState extends State<MapsScreen> {
           
         ]);
         polygons.add(myPolygon);
+  }
+  
+  void initialCircles() {
+    var myCircle = const Circle(
+        center: LatLng(28.51484568664886, 33.949849839561175),
+        radius: 6000,
+        fillColor: Colors.white24,
+        strokeColor: Colors.red,
+        strokeWidth: 1,
+        visible: true,
+        circleId: CircleId("3"),
+    );
+    circles.add(myCircle);
   }
 }
