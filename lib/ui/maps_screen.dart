@@ -104,7 +104,7 @@ class _MapsScreenState extends State<MapsScreen> {
   }
 
   void initialPolyLines() {
-    var myPolyLine = Polyline(
+    var myPolyLine = const Polyline(
       color: Colors.white54,
       width: 5,
       geodesic: true,
