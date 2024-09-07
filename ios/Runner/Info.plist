@@ -26,6 +26,8 @@
 	<true/>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
+  <key>NSLocationWhenInUseUsageDescription</key>
+	<string>This is probably the only one you need. Background location is supported</string>
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>
 	<key>UISupportedInterfaceOrientations</key>
