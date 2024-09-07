@@ -17,6 +17,7 @@ class _MapsScreenState extends State<MapsScreen> {
   late GoogleMapController controllerGoogleMaps;
   late CameraPosition initialPosition;
   Set<Marker> markers = {};
+  Set<Polyline> polyLines = {};
   late bool isMapLoaded;
 
   @override
@@ -26,6 +27,7 @@ class _MapsScreenState extends State<MapsScreen> {
       zoom: 10,
     );
     initialMarker();
+    initialPolyLines();
     super.initState();
   }
 
@@ -42,6 +44,8 @@ class _MapsScreenState extends State<MapsScreen> {
       children: [
         GoogleMap(
           markers: markers,
+          zoomControlsEnabled: false,
+          polylines: polyLines,
           initialCameraPosition: initialPosition,
           onMapCreated: (controller) {
             controllerGoogleMaps = controller;
@@ -70,8 +74,8 @@ class _MapsScreenState extends State<MapsScreen> {
 
   Future<void> initialMarker() async {
     var imageBytes =
-      await getUint8List("assets/image/location-marker-svgrepo-com.png", 70);
-    var iconCustomer =  BitmapDescriptor.fromBytes(imageBytes);
+        await getUint8List("assets/image/location-marker-svgrepo-com.png", 70);
+    var iconCustomer = BitmapDescriptor.fromBytes(imageBytes);
     var markersSet = placesModel
         .map(
           (placeModel) => Marker(
@@ -85,9 +89,7 @@ class _MapsScreenState extends State<MapsScreen> {
         )
         .toSet();
     markers.addAll(markersSet);
-    setState(() {
-      
-    });
+    setState(() {});
   }
 
   Future<Uint8List> getUint8List(String img, int width) async {
@@ -99,5 +101,22 @@ class _MapsScreenState extends State<MapsScreen> {
     var frameBytes =
         await imageFrame.image.toByteData(format: ui.ImageByteFormat.png);
     return frameBytes!.buffer.asUint8List();
+  }
+
+  void initialPolyLines() {
+    var myPolyLine = Polyline(
+      color: Colors.white54,
+      width: 5,
+      geodesic: true,
+      jointType: JointType.round,
+      startCap: Cap.roundCap,
+      endCap: Cap.roundCap,      
+      visible: true,
+      polylineId: PolylineId("1"), 
+      points: [
+      LatLng(28.777943893349317, 34.56646385690122),
+      LatLng(29.188787280282824, 35.122646681260846)
+    ]);
+    polyLines.add(myPolyLine);
   }
 }
