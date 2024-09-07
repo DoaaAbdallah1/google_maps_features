@@ -129,6 +129,11 @@ class _MapsScreenState extends State<MapsScreen> {
         strokeColor: Colors.blue,
         strokeWidth: 1,
         polygonId: PolygonId("2"),
+        holes: [[
+          LatLng(29.769794055754033, 36.19518836294033),
+          LatLng(29.903215059092247, 36.64562778612542),
+          LatLng(30.045968109572982, 36.82140902444154),
+        ]],
         points: [
           LatLng(29.36966213549226, 34.96471931092338),
           LatLng(29.173200160122654, 36.07433837779394),
