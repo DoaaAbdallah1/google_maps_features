@@ -11,7 +11,7 @@ class MapsLiveLocationTracking extends StatefulWidget {
 }
 
 class _MapsLiveLocationTrackingState extends State<MapsLiveLocationTracking> {
-  late GoogleMapController googleMapController;
+  GoogleMapController? googleMapController;
   late CameraPosition initialPosition;
   late Location location;
 
@@ -22,13 +22,13 @@ class _MapsLiveLocationTrackingState extends State<MapsLiveLocationTracking> {
       target: LatLng(28.9759860985685, 34.655899477464075),
       zoom: 10,
     );
-    checkRequestLocationService();
+    updateLocationService();
     super.initState();
   }
 
   @override
   void dispose() {
-    googleMapController.dispose();
+    googleMapController!.dispose();
     super.dispose();
   }
 
@@ -56,18 +56,46 @@ class _MapsLiveLocationTrackingState extends State<MapsLiveLocationTracking> {
         return;
       }
     }
-     checkRequestLocationPermission();
   }
 
-  Future<void> checkRequestLocationPermission() async {
+  Future<bool> checkRequestLocationPermission() async {
     PermissionStatus permissionGranted;
 
     permissionGranted = await location.hasPermission();
+    if (permissionGranted == PermissionStatus.deniedForever) {
+      return false;
+    }
     if (permissionGranted == PermissionStatus.denied) {
       permissionGranted = await location.requestPermission();
       if (permissionGranted != PermissionStatus.granted) {
-        return;
-      }
+        return false;
+      } 
+    }
+    return true;
+  }
+
+  void getLocationData() {
+    location.onLocationChanged.listen(
+      (locationData) {
+        
+          googleMapController?.animateCamera(
+            CameraUpdate.newCameraPosition(
+              CameraPosition(
+                target: LatLng(locationData.latitude!, locationData.longitude!),
+                zoom: 15,
+              ),
+            ),
+          );
+        
+      },
+    );
+  }
+
+  Future<void> updateLocationService() async {
+    await checkRequestLocationService();
+    var hasPermission = await checkRequestLocationPermission();
+    if (hasPermission) {
+      getLocationData();
     }
   }
 }
