@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_features/ui/maps_live_location_tracking.dart';
 import 'package:google_maps_features/ui/maps_screen.dart';
+import 'package:google_maps_features/ui/route_tracking.dart';
 
 void main() {
   runApp(const MyApp());
@@ -14,7 +15,7 @@ class MyApp extends StatelessWidget {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
-      home: MapsLiveLocationTracking(),
+      home: RouteTracking(),
     );
   }
 }
