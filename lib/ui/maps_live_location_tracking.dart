@@ -14,6 +14,7 @@ class _MapsLiveLocationTrackingState extends State<MapsLiveLocationTracking> {
   GoogleMapController? googleMapController;
   late CameraPosition initialPosition;
   late Location location;
+  Set<Marker> markers = {};
 
   @override
   void initState() {
@@ -36,6 +37,7 @@ class _MapsLiveLocationTrackingState extends State<MapsLiveLocationTracking> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: GoogleMap(
+        markers: markers,
         initialCameraPosition: initialPosition,
         mapType: MapType.hybrid,
         onMapCreated: (controller) {
@@ -69,24 +71,30 @@ class _MapsLiveLocationTrackingState extends State<MapsLiveLocationTracking> {
       permissionGranted = await location.requestPermission();
       if (permissionGranted != PermissionStatus.granted) {
         return false;
-      } 
+      }
     }
     return true;
   }
 
   void getLocationData() {
+    location.changeSettings(
+      distanceFilter: 2.0, // in meters
+    );
     location.onLocationChanged.listen(
       (locationData) {
-        
-          googleMapController?.animateCamera(
-            CameraUpdate.newCameraPosition(
-              CameraPosition(
-                target: LatLng(locationData.latitude!, locationData.longitude!),
-                zoom: 15,
-              ),
+        var latLng = LatLng(locationData.latitude!, locationData.longitude!);
+        var myLocationMarker =
+            Marker(markerId: MarkerId("1"), position: latLng);
+        markers.add(myLocationMarker);
+        setState(() {});
+        googleMapController?.animateCamera(
+          CameraUpdate.newCameraPosition(
+            CameraPosition(
+              target: latLng,
+              zoom: 15,
             ),
-          );
-        
+          ),
+        );
       },
     );
   }
